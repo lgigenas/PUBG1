@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PUBG Builds Helper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #ffd700;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 5px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .weapon-list, .tips-list, .map-image {
+      margin-top: 20px;
+    }
+    .weapon, .tip {
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .weapon h3, .tip h3 {
+      margin: 0 0 10px 0;
+      color: #ffd700;
+    }
+    .build, .tip-content {
+      margin-left: 20px;
+      color: #ccc;
+    }
+    .map-image img {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 2px solid #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PUBG Builds Helper</h1>
+    <h2 id="selectTitle">Selecciona el Mapa</h2>
+    <div id="selectionSection">
+      <select id="mapSelect">
+        <option value="erangel">Erangel</option>
+        <option value="miramar">Miramar</option>
+        <option value="sanhok">Sanhok</option>
+        <option value="vikendi">Vikendi</option>
+        <option value="karakin">Karakin</option>
+        <option value="paramo">Paramo</option>
+        <option value="taego">Taego</option>
+        <option value="deston">Deston</option>
+        <option value="rondo">Rondo</option>
+      </select>
+      <button onclick="showData()">Mostrar Armas y Consejos</button>
+    </div>
+    <div class="weapon-list" id="weaponList"></div>
+    <div class="tips-list" id="tipsList"></div>
+    <div class="map-image" id="mapImage"></div>
+    <div id="backSection" style="display:none; text-align:center;">
+      <button onclick="goBack()">Volver a Selección de Mapa</button>
+    </div>
+  </div>
+
+  <script>
+    const mapData = {
+      erangel: {
+        weapons: [
+          { name: "M416", build: ["Cañón: Compensador AR", "Mira: x3 o x4", "Cargador: Ampliado rápido AR", "Empuñadura: Angulada o Vertical"] },
+          { name: "Kar98k", build: ["Mira: x6 o x8", "Cañón: Supresor SR", "Culata: Kar98 Stock"] }
+        ],
+        tips: [
+          "Mejores zonas de loot: Pochinki, School, Georgopol.",
+          "Usa vehículos para rotar rápido entre zonas seguras.",
+          "Cuidado con las colinas abiertas: mantén siempre cobertura."
+        ],
+        mapImg: "images/erangel_loot.png"
+      },
+      miramar: {
+        weapons: [
+          { name: "SCAR-L", build: ["Cañón: Compensador AR", "Mira: x3 o Holo", "Cargador: Ampliado AR", "Empuñadura: Ligera"] },
+          { name: "Mini-14", build: ["Mira: x4 o x6", "Cañón: Supresor DMR", "Cargador: Ampliado rápido DMR"] }
+        ],
+        tips: [
+          "Mejores zonas de loot: Pecado, Hacienda del Patrón, Los Leones.",
+          "Utiliza miras largas: el mapa es más abierto.",
+          "Sube a edificios altos para obtener ventaja visual."
+        ],
+        mapImg: "images/miramar_loot.png"
+      },
+      sanhok: {
+        weapons: [
+          { name: "QBZ-95", build: ["Cañón: Compensador AR", "Mira: x2 o x3", "Cargador: Ampliado rápido AR", "Empuñadura: Angulada"] },
+          { name: "Vector", build: ["Cañón: Compensador SMG", "Mira: x2", "Cargador: Ampliado rápido SMG", "Culata: Tactical Stock"] }
+        ],
+        tips: [
+          "Mejores zonas de loot: Bootcamp, Paradise Resort, Ruins.",
+          "Mantén movilidad: el mapa es pequeño y rápido.",
+          "Las granadas de humo son clave en peleas cercanas."
+        ],
+        mapImg: "images/sanhok_loot.png"
+      },
+      vikendi: {
+        weapons: [
+          { name: "G36C", build: ["Cañón: Compensador AR", "Mira: x3 o x4", "Cargador: Ampliado rápido AR", "Empuñadura: Vertical"] },
+          { name: "SKS", build: ["Mira: x4 o x6", "Cañón: Supresor DMR", "Cargador: Ampliado rápido DMR"] }
+        ],
+        tips: [
+          "Mejores zonas de loot: Cosmodrome, Castle, Volnova.",
+          "Camúflate en la nieve: ropa clara te da ventaja.",
+          "Atento a las motos de nieve: hacen mucho ruido."
+        ],
+        mapImg: "images/vikendi_loot.png"
+      }
+      // Los demás mapas se pueden agregar con su propiedad mapImg
+    };
+
+    function showData() {
+      const map = document.getElementById('mapSelect').value;
+      const weaponList = document.getElementById('weaponList');
+      const tipsList = document.getElementById('tipsList');
+      const mapImage = document.getElementById('mapImage');
+      weaponList.innerHTML = '';
+      tipsList.innerHTML = '';
+      mapImage.innerHTML = '';
+
+      mapData[map].weapons.forEach(weapon => {
+        const div = document.createElement('div');
+        div.classList.add('weapon');
+        div.innerHTML = `<h3>${weapon.name}</h3>` + weapon.build.map(b => `<div class="build">- ${b}</div>`).join('');
+        weaponList.appendChild(div);
+      });
+
+      const tipDiv = document.createElement('div');
+      tipDiv.classList.add('tip');
+      tipDiv.innerHTML = `<h3>Consejos para ${map.charAt(0).toUpperCase() + map.slice(1)}</h3>` + mapData[map].tips.map(t => `<div class="tip-content">- ${t}</div>`).join('');
+      tipsList.appendChild(tipDiv);
+
+      if (mapData[map].mapImg) {
+        const img = document.createElement('img');
+        img.src = mapData[map].mapImg;
+        img.alt = `Mapa ${map}`;
+        mapImage.appendChild(img);
+      }
+
+      document.getElementById('selectionSection').style.display = 'none';
+      document.getElementById('backSection').style.display = 'block';
+      document.getElementById('selectTitle').innerText = 'Resultados';
+    }
+
+    function goBack() {
+      document.getElementById('weaponList').innerHTML = '';
+      document.getElementById('tipsList').innerHTML = '';
+      document.getElementById('mapImage').innerHTML = '';
+      document.getElementById('selectionSection').style.display = 'block';
+      document.getElementById('backSection').style.display = 'none';
+      document.getElementById('selectTitle').innerText = 'Selecciona el Mapa';
+    }
+  </script>
+</body>
+</html>
