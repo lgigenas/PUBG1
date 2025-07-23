@@ -127,6 +127,18 @@
           "Atento a las motos de nieve: hacen mucho ruido."
         ],
         mapImg: "images/vikendi_loot.png"
+      },
+      taego: {
+        weapons: [
+          { name: "M416", build: ["Cañón: Compensador AR", "Mira: x3 o x4", "Cargador: Ampliado rápido AR", "Empuñadura: Vertical"] },
+          { name: "Beryl M762", build: ["Cañón: Compensador AR", "Mira: x2 o x3", "Cargador: Ampliado rápido AR", "Empuñadura: Angulada"] }
+        ],
+        tips: [
+          "Mejores zonas de loot: Palace, Terminal, Town.",
+          "Usa vehículos para cubrir grandes distancias en este mapa 8x8.",
+          "Las DMR y AR con miras x3-x4 funcionan bien por la mezcla de espacios abiertos y urbanos."
+        ],
+        mapImg: "images/taego_loot.png"
       }
     };
 
@@ -139,7 +151,6 @@
       tipsList.innerHTML = '';
       mapImage.innerHTML = '';
 
-      // Cambia el título al nombre del mapa seleccionado
       document.getElementById('selectTitle').innerText = map.charAt(0).toUpperCase() + map.slice(1);
 
       mapData[map].weapons.forEach(weapon => {
