@@ -76,9 +76,6 @@
     <div class="weapon-list" id="weaponList"></div>
     <div class="tips-list" id="tipsList"></div>
     <div class="map-image" id="mapImage"></div>
-    <div id="backSection" style="display:none; text-align:center;">
-      <button onclick="goBack()">Volver a Selección de Mapa</button>
-    </div>
   </div>
 
   <script>
@@ -131,7 +128,6 @@
         ],
         mapImg: "images/vikendi_loot.png"
       }
-      // Los demás mapas se pueden agregar con su propiedad mapImg
     };
 
     function showData() {
@@ -142,6 +138,9 @@
       weaponList.innerHTML = '';
       tipsList.innerHTML = '';
       mapImage.innerHTML = '';
+
+      // Cambia el título al nombre del mapa seleccionado
+      document.getElementById('selectTitle').innerText = map.charAt(0).toUpperCase() + map.slice(1);
 
       mapData[map].weapons.forEach(weapon => {
         const div = document.createElement('div');
@@ -161,19 +160,6 @@
         img.alt = `Mapa ${map}`;
         mapImage.appendChild(img);
       }
-
-      document.getElementById('selectionSection').style.display = 'none';
-      document.getElementById('backSection').style.display = 'block';
-      document.getElementById('selectTitle').innerText = 'Resultados';
-    }
-
-    function goBack() {
-      document.getElementById('weaponList').innerHTML = '';
-      document.getElementById('tipsList').innerHTML = '';
-      document.getElementById('mapImage').innerHTML = '';
-      document.getElementById('selectionSection').style.display = 'block';
-      document.getElementById('backSection').style.display = 'none';
-      document.getElementById('selectTitle').innerText = 'Selecciona el Mapa';
     }
   </script>
 </body>
